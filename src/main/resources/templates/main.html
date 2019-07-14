@@ -1,0 +1,106 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>DB Benchmark</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+
+    <script src="/js/lib/jquery-3.4.1.js"></script>
+    <link href="/css/loading.css" rel="stylesheet">
+
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 5px;
+            text-align: center;
+        }
+
+        .bottom20 {
+            padding-bottom: 20px;
+        }
+    </style>
+
+
+</head>
+<body>
+<div id="busy" class="loading" style="display: none;" >Loading&#8230;</div>
+
+<h3>Database benchmark</h3>
+<div>
+    <label>Pleas enter the number of query to run</label>
+    <input type="number" id="quantity" maxlength="5" value="1000" oninput="maxLengthCheck(this)" style="width: 60px">
+</div>
+<div class="bottom20">
+    <button id="runTest">run test</button>
+</div>
+<div>
+    <label>units: microseconds</label>
+    <table style="width:100%">
+        <tr>
+            <th>Type</th>
+            <th>Connection time</th>
+            <th>Total time</th>
+            <th>Average time</th>
+            <th>Max time</th>
+            <th>Min time</th>
+        </tr>
+        <tr>
+            <td>INSERT</td>
+            <td rowspan="2" id="connection">0</td>
+            <td id="insert_total">0</td>
+            <td id="insert_avg">0</td>
+            <td id="insert_max">0</td>
+            <td id="insert_min">0</td>
+        </tr>
+        <tr>
+            <td>SELECT</td>
+            <td id="select_total">0</td>
+            <td id="select_avg">0</td>
+            <td id="select_max">0</td>
+            <td id="select_min">0</td>
+        </tr>
+    </table>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $('#runTest').click(function () {
+            getTestResult();
+        });
+
+    });
+
+
+    function getTestResult() {
+        $('#busy').show();
+        var q = $('#quantity').val();
+        $.get('/getMeasure', {queriesQuantity: q}, function (response) {
+            console.log(response);
+            // alert(response.connectionTime);
+            $("#connection").text(response.connectionTime);
+            $("#insert_total").text(response.insertTotalTime);
+            $("#insert_avg").text(response.insertAvgTime);
+            $("#insert_max").text(response.insertMaxTime);
+            $("#insert_min").text(response.insertMinTime);
+            $("#select_total").text(response.selectTotalTime);
+            $("#select_avg").text(response.selectAvgTime);
+            $("#select_max").text(response.selectMaxTime);
+            $("#select_min").text(response.selectMinTime);
+            $('#busy').hide();
+        });
+    }
+    function maxLengthCheck(object)
+    {
+        if (object.value.length > object.maxLength)
+            object.value = object.value.slice(0, object.maxLength);
+    }
+
+
+</script>
+</body>
+</html>
