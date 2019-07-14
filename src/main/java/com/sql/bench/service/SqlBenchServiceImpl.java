@@ -25,7 +25,7 @@ public class SqlBenchServiceImpl implements SqlBenchService {
             long start = System.nanoTime();
             conn = dataSource.getConnection();
             long elapsed = System.nanoTime() - start;
-            measureResultDTO.setConnectionTime(Long.toString(elapsed));
+            measureResultDTO.setConnectionTime(nanoToStrMicro(elapsed));
 
             //according to requirements to use commit for INSERT queries, set auto commit to false
             conn.setAutoCommit(false);
