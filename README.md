@@ -14,6 +14,7 @@ The requirements are:
 - To build project use: *<b>mvn clean install</b>* [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
 - To run application you must have running PostgreSQL server with already created databese named *<b>bench_db</b>*
 - Application will create needed table on startup automatically by running appropriate sql script included in application
+- No validation and error handling have been implemented
 - Location of configuration file is <b>src/main/resources/application.yml</b>
 - If you want run application without building, download <b>executable</b> folder, edit <b>runSqlBench.cmd</b> with your database credentials and run it.
 - As soon as app starts,open browser and type <b>http://localhost:8080/</b> in address line. You will see the simple dashboard.
